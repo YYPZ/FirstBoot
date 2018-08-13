@@ -31,7 +31,7 @@ public class Test {
 	
 	public static void testSignAndVerify() throws Exception {
 		String signDate =RSAUtils.sign(data.getBytes(), priStr);
-		System.out.println(new String("after private key encrypt:"+signDate));
+		System.out.println(new String("after private key sign:"+signDate));
 		boolean pass = RSAUtils.verify(byteData, pubStr, signDate);
 		System.out.println("verify result:"+pass);
 	}
