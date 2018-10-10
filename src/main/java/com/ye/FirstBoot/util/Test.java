@@ -7,7 +7,7 @@ public class Test {
 	
 	/**
 	 * KS 密钥库使用专用格式。建议使用 "keytool -importkeystore -srckeystore yekey.jks -destkeystore yekey.jks -deststoretype pkcs12" 迁移到行业标准格式 PKCS12。
-	 * 迁移后 使用KeyStore.getInstance(keyType);keyType可以是 PKCS12 或者 JKS ,未转之前只能是JKS
+	 * 迁移后 使用KeyStore.getInstance(keyType);keyType可以是 PKCS12 或者 JKS,同时可以将文件名改为.pfx后缀 ,未转之前只能是JKS
 	 */
 	public static PublicKey publicKey;
 	public static PrivateKey privateKey;
@@ -28,6 +28,7 @@ public class Test {
 
 		testEncryptAndDecrypt();
 		testSignAndVerify();
+		RSAUtils.getX509CerCate("D:\\mydata\\yekey.cer");
 	}
 
 	public static void testEncryptAndDecrypt() throws Exception {
@@ -43,5 +44,7 @@ public class Test {
 		boolean pass = RSAUtils.verify(byteData, pubStr, signDate);
 		System.out.println("verify result:" + pass);
 	}
+	
+	
 
 }

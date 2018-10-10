@@ -1,5 +1,7 @@
 package com.ye.FirstBoot.controllor;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +42,19 @@ public class RestUserControllor {
 		}
 		return ResposeResult.build(200,msg,user )  ;
 	}
+	
+	@RequestMapping(path="pushMsg",method= {RequestMethod.POST, RequestMethod.GET})
+	public HashMap<String,String> pushMsg(String name) {
+		String msg ="OK";
+		System.out.println(name);
+		HashMap<String,String>retMap = new HashMap<String,String>();
+		
+	     retMap.put("respCode","0000");
+         retMap.put("respMsg","SUCCESS");
+         return retMap;
+		//return ResposeResult.ok(name)  ;
+	}
+	
 
 	
 

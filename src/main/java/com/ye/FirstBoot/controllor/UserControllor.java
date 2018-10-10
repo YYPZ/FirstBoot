@@ -37,7 +37,7 @@ public class UserControllor {
 	    System.out.println(request.getParameter("id"));
 	    request.setAttribute("id", "attr");
 	    System.out.println(request.getAttribute("id"));
-	
+	    request.setAttribute("XSS_TEST", request.getParameter("XSS_TEST"));
 	    ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
 	    HttpServletRequest request2 = requestAttributes.getRequest();
 	    HttpServletResponse response2 = requestAttributes.getResponse();

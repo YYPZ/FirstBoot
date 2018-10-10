@@ -14,5 +14,7 @@ ${user.id }
 num:${num } ddd:${ddd }
 <br>
 ${test }
+<br>
+${XSS_TEST }
 </body>
 </html>
