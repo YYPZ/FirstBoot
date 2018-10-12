@@ -26,12 +26,8 @@ public class UserService {
     	return ResposeResult.build(200, "OK");
     }
     
-    public ResposeResult editUserEmail(String email) {
-    	// 通过Session 获取用户信息, 这里假装从Session中获取了用户的id，后面讲解SOA面向服务架构中的单点登录系统时，修改此处代码 FIXME
-    	long id = 3L;
-    	// 添加一些验证，比如短信验证
+    public void editUserEmail(long id,String email) {    
     	userRepository.updateUserEmail(id, email);
-    	return ResposeResult.ok();
     }
     
 }

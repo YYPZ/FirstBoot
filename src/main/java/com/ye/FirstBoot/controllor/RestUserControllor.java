@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -16,6 +18,7 @@ import com.ye.FirstBoot.service.UserService;
 
 @RestController
 public class RestUserControllor {
+	Logger logger = LoggerFactory.getLogger(getClass());
 	@Autowired
 	UserRepository userRepository;
 	@Autowired
@@ -46,7 +49,7 @@ public class RestUserControllor {
 	@RequestMapping(path="pushMsg",method= {RequestMethod.POST, RequestMethod.GET})
 	public HashMap<String,String> pushMsg(String name) {
 		String msg ="OK";
-		System.out.println(name);
+		logger.info(name);
 		HashMap<String,String>retMap = new HashMap<String,String>();
 		
 	     retMap.put("respCode","0000");
@@ -55,6 +58,12 @@ public class RestUserControllor {
 		//return ResposeResult.ok(name)  ;
 	}
 	
+	
+	@RequestMapping(path="updateEmail",method= {RequestMethod.POST, RequestMethod.GET})
+	public ResposeResult  updateEmail(long id) {
+		userService.editUserEmail(id, "677@qq.com");
+		return ResposeResult.ok("修改成功")  ;
+	}
 
 	
 

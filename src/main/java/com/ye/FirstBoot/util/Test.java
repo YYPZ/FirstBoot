@@ -17,8 +17,11 @@ public class Test {
 	public static byte[] byteData = null;
 
 	public static void main(String[] args) throws Exception {
+		
+		String t="L'S BOUTIQUE";
+		System.out.println(t.replace("'", "''"));
 
-		publicKey = RSAUtils.getPublicKeyFromKeyStore("D:\\mydata\\yekey.jks", "yeyypz", "PKCS12", "www.yypz.com");
+		/*publicKey = RSAUtils.getPublicKeyFromKeyStore("D:\\mydata\\yekey.jks", "yeyypz", "PKCS12", "www.yypz.com");
 		privateKey = RSAUtils.getPrivateKeyFromKeyStore("D:\\mydata\\yekey.jks", "yeyypz", "PKCS12", "www.yypz.com");
 		//publicKey = RSAUtils.getPublicKeyFromKeyStore("D:\\mydata\\macaupassenterprise.pfx", "macaupass_pg", "PKCS12", "0123456789abcdef");
 		//privateKey = RSAUtils.getPrivateKeyFromKeyStore("D:\\mydata\\macaupassenterprise.pfx", "macaupass_pg", "PKCS12", "0123456789abcdef");
@@ -28,7 +31,7 @@ public class Test {
 
 		testEncryptAndDecrypt();
 		testSignAndVerify();
-		RSAUtils.getX509CerCate("D:\\mydata\\yekey.cer");
+		RSAUtils.getX509CerCate("D:\\mydata\\yekey.cer");*/
 	}
 
 	public static void testEncryptAndDecrypt() throws Exception {
