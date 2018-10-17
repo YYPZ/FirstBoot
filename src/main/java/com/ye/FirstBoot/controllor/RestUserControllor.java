@@ -1,7 +1,6 @@
 package com.ye.FirstBoot.controllor;
 
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -19,10 +18,14 @@ import com.ye.FirstBoot.service.UserService;
 @RestController
 public class RestUserControllor {
 	Logger logger = LoggerFactory.getLogger(getClass());
+	
 	@Autowired
 	UserRepository userRepository;
+	
 	@Autowired
 	UserService userService;
+	
+
 	
 	@RequestMapping(path="saveUserInfoRest",method= {RequestMethod.POST, RequestMethod.GET})
 	public ResposeResult saveUserInfo(String name) {
@@ -43,6 +46,7 @@ public class RestUserControllor {
 		}else {
 			msg="none";
 		}
+		
 		return ResposeResult.build(200,msg,user )  ;
 	}
 	
@@ -51,9 +55,9 @@ public class RestUserControllor {
 		String msg ="OK";
 		logger.info(name);
 		HashMap<String,String>retMap = new HashMap<String,String>();
-		
 	     retMap.put("respCode","0000");
          retMap.put("respMsg","SUCCESS");
+         logger.info("发送消息成功");
          return retMap;
 		//return ResposeResult.ok(name)  ;
 	}

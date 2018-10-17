@@ -62,6 +62,48 @@ debug：当此属性设置为true时，将打印出logback内部日志信息，�
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [ %thread ] - [ %-5level ] [ %logger{50} : %line ] - %msg%n</pattern>
         </layout>
     </appender>
+    
+    <appender name="REST" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_HOME}/${appName}_REST.log</file>
+		<encoder>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger -%msg%n</pattern>
+		</encoder>
+		<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+			<fileNamePattern>
+				${LOG_HOME}/${appName}-%d{yyyy-MM-dd}_REST-%i.log
+			</fileNamePattern>
+			<minIndex>
+				1
+			</minIndex>
+			<maxIndex>
+				10
+			</maxIndex>
+		</rollingPolicy>
+		<triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+			<maxFileSize>100MB</maxFileSize>
+		</triggeringPolicy>
+	</appender>
+	
+	 <appender name="FILTER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_HOME}/${appName}_Filter.log</file>
+		<encoder>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger -%msg%n</pattern>
+		</encoder>
+		<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+			<fileNamePattern>
+				${LOG_HOME}/${appName}-%d{yyyy-MM-dd}_Filter-%i.log
+			</fileNamePattern>
+			<minIndex>
+				1
+			</minIndex>
+			<maxIndex>
+				10
+			</maxIndex>
+		</rollingPolicy>
+		<triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+			<maxFileSize>100MB</maxFileSize>
+		</triggeringPolicy>
+	</appender>
 
     <!-- 
         logger主要用于存放日志对象，也可以定义日志类型、级别
@@ -73,8 +115,15 @@ debug：当此属性设置为true时，将打印出logback内部日志信息，�
     -->
    
     <!-- Spring framework logger -->
-    <logger name="org.springframework" level="debug" additivity="false"></logger>
-
+    <logger name="org.springframework" level="debug" additivity="false" />
+    <logger name="com.ye.FirstBoot.controllor.RestUserControllor" level="info" additivity="false" >
+    	<appender-ref ref="REST"/>
+    </logger>
+  
+    <logger name="com.ye.FirstBoot.common.IPFilter" level="info" additivity="false" >
+    	<appender-ref ref="FILTER"/>
+    </logger>
+    
 
 
     <!-- 
@@ -83,6 +132,7 @@ debug：当此属性设置为true时，将打印出logback内部日志信息，�
     -->
     <root level="info">
         <appender-ref ref="stdout" />
+		<!-- 默认的日志打印到那个文件 -->
         <appender-ref ref="appLogAppender" />
     </root>
 </configuration> 
