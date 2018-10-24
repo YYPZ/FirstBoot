@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ye.FirstBoot.common.RedisUtil;
 import com.ye.FirstBoot.common.ResposeResult;
 import com.ye.FirstBoot.domain.User;
 import com.ye.FirstBoot.repository.UserRepository;
@@ -25,6 +26,8 @@ public class RestUserControllor {
 	@Autowired
 	UserService userService;
 	
+	@Autowired
+	RedisUtil redisUtil;
 
 	
 	@RequestMapping(path="saveUserInfoRest",method= {RequestMethod.POST, RequestMethod.GET})
@@ -67,6 +70,11 @@ public class RestUserControllor {
 	public ResposeResult  updateEmail(long id) {
 		userService.editUserEmail(id, "677@qq.com");
 		return ResposeResult.ok("修改成功")  ;
+	}
+	
+	@RequestMapping(path="getInfoFromRedis",method= {RequestMethod.POST, RequestMethod.GET})
+	public ResposeResult  getInfoFromRedis(String name) {
+		return ResposeResult.ok(redisUtil.get(name))  ;
 	}
 
 	

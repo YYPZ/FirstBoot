@@ -115,8 +115,8 @@ debug：当此属性设置为true时，将打印出logback内部日志信息，�
     -->
    
     <!-- Spring framework logger -->
-    <logger name="org.springframework" level="debug" additivity="false" />
-    <logger name="com.ye.FirstBoot.controllor.RestUserControllor" level="info" additivity="false" >
+<!--     <logger name="org.springframework" level="debug" additivity="false" />
+ -->    <logger name="com.ye.FirstBoot.controllor.RestUserControllor" level="info" additivity="false" >
     	<appender-ref ref="REST"/>
     </logger>
   
