@@ -1,10 +1,16 @@
 package com.ye.FirstBoot.common;
 
+
+import java.time.Duration;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.connection.RedisPassword;
+import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
+import org.springframework.data.redis.connection.jedis.JedisClientConfiguration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -17,6 +23,21 @@ import redis.clients.jedis.JedisPoolConfig;
 @PropertySource("classpath:redis.properties")
 public class RedisConfig {
 
+	@Value("${redis.hostName}")
+	private String hostName;
+	
+	@Value("${redis.port}")
+	private Integer port;
+	
+	@Value("${redis.password}")
+	private String password;
+	
+	@Value("${redis.database}")
+	private Integer database;
+	
+	@Value("${redis.timeout}")
+	private Integer timeout;
+	
     @Value("${redis.maxIdle}")
     private Integer maxIdle;
 
@@ -85,18 +106,27 @@ public class RedisConfig {
      */
     @Bean
     public JedisConnectionFactory JedisConnectionFactory(JedisPoolConfig jedisPoolConfig){
-        JedisConnectionFactory JedisConnectionFactory = new JedisConnectionFactory(jedisPoolConfig);
-        //连接池  
-        JedisConnectionFactory.setPoolConfig(jedisPoolConfig);  
-        //IP地址  
-        JedisConnectionFactory.setHostName("192.168.2.108");  
-        //端口号  
-        JedisConnectionFactory.setPort(6379);  
-        //如果Redis设置有密码  
-        //JedisConnectionFactory.setPassword(password);  
-        //客户端超时时间单位是毫秒  
-        JedisConnectionFactory.setTimeout(5000);  
-        return JedisConnectionFactory; 
+    	  RedisStandaloneConfiguration redisStandaloneConfiguration=new RedisStandaloneConfiguration();
+          redisStandaloneConfiguration.setDatabase(database);
+          redisStandaloneConfiguration.setHostName(hostName);
+          redisStandaloneConfiguration.setPort(port);
+          RedisPassword redisPassword =RedisPassword.of(password);
+          redisStandaloneConfiguration.setPassword(redisPassword);
+         /* 
+          //不使用连接池
+          JedisClientConfiguration.JedisClientConfigurationBuilder jedisClientConfiguration = JedisClientConfiguration.builder();
+          jedisClientConfiguration.connectTimeout(Duration.ofMillis(2000L));
+          JedisConnectionFactory jedisConnectionFactory=new JedisConnectionFactory(redisStandaloneConfiguration,jedisClientConfiguration.build());
+         */
+         
+          //使用连接池
+          JedisClientConfiguration.JedisPoolingClientConfigurationBuilder jedisPoolingClientConfigurationBuilder=
+                  (JedisClientConfiguration.JedisPoolingClientConfigurationBuilder)JedisClientConfiguration.builder();
+          jedisPoolingClientConfigurationBuilder.poolConfig(jedisPoolConfig);
+          JedisConnectionFactory jedisConnectionFactory=new JedisConnectionFactory(redisStandaloneConfiguration,jedisPoolingClientConfigurationBuilder.build());
+          
+
+        return jedisConnectionFactory; 
     }
 
     /**
