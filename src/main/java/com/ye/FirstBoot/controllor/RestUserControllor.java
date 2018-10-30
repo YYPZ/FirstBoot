@@ -6,11 +6,12 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ye.FirstBoot.common.RedisUtil;
 import com.ye.FirstBoot.common.ResposeResult;
 import com.ye.FirstBoot.domain.User;
 import com.ye.FirstBoot.repository.UserRepository;
@@ -26,9 +27,15 @@ public class RestUserControllor {
 	@Autowired
 	UserService userService;
 	
+/*	@Autowired
+	RedisUtil redisUtil;*/
+	
+	@Qualifier("lettruceRedisTemplate")
 	@Autowired
-	RedisUtil redisUtil;
+	RedisTemplate<String, String> lettruceRedisTemplate;
 
+/*	@Autowired
+	JedisCluster jedisCluster;*/
 	
 	@RequestMapping(path="saveUserInfoRest",method= {RequestMethod.POST, RequestMethod.GET})
 	public ResposeResult saveUserInfo(String name) {
@@ -72,11 +79,19 @@ public class RestUserControllor {
 		return ResposeResult.ok("修改成功")  ;
 	}
 	
-	@RequestMapping(path="getInfoFromRedis",method= {RequestMethod.POST, RequestMethod.GET})
+/*	@RequestMapping(path="getInfoFromRedis",method= {RequestMethod.POST, RequestMethod.GET})
 	public ResposeResult  getInfoFromRedis(String name) {
 		return ResposeResult.ok(redisUtil.get(name))  ;
-	}
-
+	}*/
 	
+/*	@RequestMapping(path="getInfoFromRedisCluster",method= {RequestMethod.POST, RequestMethod.GET})
+	public ResposeResult  getInfoFromRedisCluster(String name) {
+		return ResposeResult.ok(jedisCluster.get(name))  ;
+	}
+*/
+	@RequestMapping(path="getInfoFromLetturRedisCluster",method= {RequestMethod.POST, RequestMethod.GET})
+	public ResposeResult  getInfoFromRedisCluster(String name) {
+		return ResposeResult.ok(lettruceRedisTemplate.opsForValue().get("name"))  ;
+	}
 
 }
