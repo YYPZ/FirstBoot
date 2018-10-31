@@ -1,4 +1,4 @@
-package com.ye.FirstBoot.common;
+package com.ye.FirstBoot.common.config;
 import java.time.Duration;
 import java.util.HashSet;
 import java.util.Set;
@@ -11,13 +11,17 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.redis.connection.RedisClusterConfiguration;
 import org.springframework.data.redis.connection.RedisNode;
 import org.springframework.data.redis.connection.RedisPassword;
+import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceClientConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.connection.lettuce.LettucePoolingClientConfiguration;
+import org.springframework.data.redis.connection.lettuce.LettucePoolingClientConfiguration.LettucePoolingClientConfigurationBuilder;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
+
+// 临时注释，如果使用lettuce 需配置
 @Configuration
 @PropertySource("classpath:redis.properties")
 public class LettuceRedisConfig {
@@ -61,20 +65,30 @@ public class LettuceRedisConfig {
     @Value("${redis.testWhileIdle}")
     private boolean testWhileIdle;
     
-    @Value("${spring.redis.cluster.nodes}")
+    @Value("${redis.cluster.nodes}")
     private String  clusterNodes;
+    
+    @Value("${redis.cluster.maxRedirects}")
+    private Integer  maxRedirects;
 
 
     @Bean
     LettuceConnectionFactory lettuceConnectionFactory(GenericObjectPoolConfig genericObjectPoolConfig) {
-      /*  // 单机版配置
+    	LettucePoolingClientConfigurationBuilder lettuceBuilder=LettucePoolingClientConfiguration.builder();
+    	lettuceBuilder.commandTimeout(Duration.ofMillis(timeout));
+    	lettuceBuilder.poolConfig(genericObjectPoolConfig);
+	    LettuceClientConfiguration clientConfig = lettuceBuilder.build();
+    	
+        // 单机版配置
         RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration();
         redisStandaloneConfiguration.setDatabase(database);
         redisStandaloneConfiguration.setHostName(hostName);
         redisStandaloneConfiguration.setPort(port);
         redisStandaloneConfiguration.setPassword(RedisPassword.of(password));
-*/
-        // 集群版配置
+        
+        LettuceConnectionFactory factory = new LettuceConnectionFactory(redisStandaloneConfiguration,clientConfig);
+
+       /* // 集群版配置
         RedisClusterConfiguration redisClusterConfiguration = new RedisClusterConfiguration();
         String[] serverArray = clusterNodes.split(",");
         Set<RedisNode> nodes = new HashSet<RedisNode>();
@@ -84,14 +98,14 @@ public class LettuceRedisConfig {
         }
         redisClusterConfiguration.setPassword(RedisPassword.of(password));
         redisClusterConfiguration.setClusterNodes(nodes);
-        redisClusterConfiguration.setMaxRedirects(3);
-
-        LettuceClientConfiguration clientConfig = LettucePoolingClientConfiguration.builder()
-                .commandTimeout(Duration.ofMillis(timeout))
-                .poolConfig(genericObjectPoolConfig)
-                .build();
-
+        redisClusterConfiguration.setMaxRedirects(maxRedirects);
+        
         LettuceConnectionFactory factory = new LettuceConnectionFactory(redisClusterConfiguration,clientConfig);
+        */
+
+      
+
+        
         return factory;
     }
 
@@ -111,7 +125,7 @@ public class LettuceRedisConfig {
     }
     
     //2.0 之后版本的序列化
-    @Bean(name="lettruceRedisTemplate")
+    @Bean
     public RedisTemplate redisTemplate(LettuceConnectionFactory factory) {
         RedisTemplate redisTemplate = new StringRedisTemplate(factory);
         StringRedisSerializer stringRedisSerializer =new StringRedisSerializer();

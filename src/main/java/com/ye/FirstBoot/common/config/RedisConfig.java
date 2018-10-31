@@ -1,11 +1,24 @@
-package com.ye.FirstBoot.common;
+package com.ye.FirstBoot.common.config;
 
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.connection.RedisPassword;
+import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
+import org.springframework.data.redis.connection.jedis.JedisClientConfiguration;
+import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 
-@Configuration
+import redis.clients.jedis.JedisPoolConfig;
+
+//临时注释，如果使用 需配置
+//@Configuration
 @PropertySource("classpath:redis.properties")
 public class RedisConfig {
 
@@ -49,16 +62,16 @@ public class RedisConfig {
     private boolean testWhileIdle;
 
 
-    @Value("${spring.redis.cluster.nodes}")
+    @Value("${redis.cluster.nodes}")
     private String clusterNodes; 
 
-    @Value("${spring.redis.cluster.max-redirects}")
+    @Value("${redis.cluster.maxRedirects}")
     private Integer mmaxRedirectsac;
 
-   /* *//**
+   /**
      * JedisPoolConfig 连接池
      * @return
-     *//*
+     */
     @Bean
     public JedisPoolConfig jedisPoolConfig() {
         JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
@@ -80,7 +93,7 @@ public class RedisConfig {
         jedisPoolConfig.setTestWhileIdle(testWhileIdle);
         return jedisPoolConfig;
     }
-    *//**
+    /**
      * 单机版配置
     * @Title: JedisConnectionFactory 
     * @param @param jedisPoolConfig
@@ -89,7 +102,7 @@ public class RedisConfig {
     * @autor lpl
     * @date 2018年2月24日
     * @throws
-     *//*
+     */
     @Bean
     public JedisConnectionFactory JedisConnectionFactory(JedisPoolConfig jedisPoolConfig){
     	  RedisStandaloneConfiguration redisStandaloneConfiguration=new RedisStandaloneConfiguration();
@@ -99,11 +112,11 @@ public class RedisConfig {
           RedisPassword redisPassword =RedisPassword.of(password);
           redisStandaloneConfiguration.setPassword(redisPassword);
           
-          //不使用连接池
+         /* //不使用连接池
           JedisClientConfiguration.JedisClientConfigurationBuilder jedisClientConfiguration = JedisClientConfiguration.builder();
           jedisClientConfiguration.connectTimeout(Duration.ofMillis(2000L));
           JedisConnectionFactory jedisConnectionFactory=new JedisConnectionFactory(redisStandaloneConfiguration,jedisClientConfiguration.build());
-         
+         */
          
           //使用连接池
           JedisClientConfiguration.JedisPoolingClientConfigurationBuilder jedisPoolingClientConfigurationBuilder=
@@ -115,12 +128,12 @@ public class RedisConfig {
         return jedisConnectionFactory; 
     }
 
-    *//**
+    /**
      * 实例化 RedisTemplate 对象
      *
      * @return  //2.0 之前版本的序列化
-     *//*
-    @Bean
+     */
+   /* @Bean
     public RedisTemplate<String, Object> redisTemplate(JedisConnectionFactory jedisConnectionFactory ) {
         //设置序列化
         Jackson2JsonRedisSerializer jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer(Object.class);
@@ -137,11 +150,9 @@ public class RedisConfig {
         redisTemplate.setHashKeySerializer(stringSerializer); // Hash key序列化
         redisTemplate.setHashValueSerializer(jackson2JsonRedisSerializer); // Hash value序列化
         redisTemplate.afterPropertiesSet();
-        return redisTemplate;
-        
-      
+        return redisTemplate;     
     }
-
+*/
     //2.0 之后版本的序列化
     @Bean
     public RedisTemplate redisTemplate(RedisConnectionFactory factory) {
@@ -155,12 +166,12 @@ public class RedisConfig {
         return redisTemplate;
     }
  
-    *//**
+    /**
      * 设置数据存入 redis 的序列化方式,并开启事务
      * 
      * @param redisTemplate
      * @param factory
-     *//*
+     */
     private void initDomainRedisTemplate(RedisTemplate<String, Object> redisTemplate, RedisConnectionFactory factory) {
         //如果不配置Serializer，那么存储的时候缺省使用String，如果用User类型存储，那么会提示错误User can't cast to String！  
         redisTemplate.setKeySerializer(new StringRedisSerializer());
@@ -171,14 +182,7 @@ public class RedisConfig {
         redisTemplate.setEnableTransactionSupport(true);
         redisTemplate.setConnectionFactory(factory);
     }
-    *//**
-     * 注入封装RedisTemplate
-    * @Title: redisUtil 
-    * @return RedisUtil
-    * @autor lpl
-    * @date 2017年12月21日
-    * @throws
-     *//*
+  /* 
     @Bean(name = "redisUtil")
     public RedisUtil redisUtil(RedisTemplate<String, Object> redisTemplate) {
         RedisUtil redisUtil = new RedisUtil();

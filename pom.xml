@@ -71,8 +71,8 @@
 	
 		<!-- 添加jedis客户端 -->
 
-		<!-- <dependency> <groupId>redis.clients</groupId> <artifactId>jedis</artifactId> 
-			</dependency> -->
+		<dependency> <groupId>redis.clients</groupId> <artifactId>jedis</artifactId> 
+			</dependency>
 		<!-- 将作为Redis对象序列化器 -->
 		<dependency>
 			<groupId>com.alibaba</groupId>

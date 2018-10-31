@@ -1,7 +1,8 @@
-package com.ye.FirstBoot.common;
+package com.ye.FirstBoot.common.config;
 
 
 
+import java.net.UnknownHostException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -9,15 +10,25 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 
-import io.lettuce.core.internal.HostAndPort;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import redis.clients.jedis.HostAndPort;
 import redis.clients.jedis.JedisCluster;
 import redis.clients.jedis.JedisPoolConfig;
-
+//临时注释，如果使用 需配置
 @Configuration
+@PropertySource("classpath:redis.properties")
 @ConditionalOnClass({JedisCluster.class})
-public class RedisClusterConf {
-    @Value("${spring.redis.cluster.nodes}")
+public class RedisClusterConfig {
+    @Value("${redis.cluster.nodes}")
     private String clusterNodes;
     @Value("${redis.timeout}")
     private int timeout;
@@ -40,11 +51,11 @@ public class RedisClusterConf {
         jedisPoolConfig.setMaxIdle(maxIdle);
         jedisPoolConfig.setMaxWaitMillis(maxWaitMillis);
         // 创建集群对象
-//      JedisCluster jedisCluster = new JedisCluster(nodes,commandTimeout);
-        return new JedisCluster(nodes,commandTimeout,jedisPoolConfig);
+        JedisCluster jedisCluster = new JedisCluster(nodes,commandTimeout,jedisPoolConfig);
+        return jedisCluster;
     }
 
-   /* *//**
+  /* *//**
      * 设置数据存入 redis 的序列化方式
      * </br>redisTemplate 序列化默认使用的jdkSerializeable, 存储二进制字节码, 导致key会出现乱码，所以自定义
      * 序列化类
@@ -67,6 +78,6 @@ public class RedisClusterConf {
         redisTemplate.afterPropertiesSet();
 
         return redisTemplate;
-    }
-*/
+    }*/
+
 }
