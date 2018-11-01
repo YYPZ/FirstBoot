@@ -1,16 +1,23 @@
 package com.ye.FirstBoot.controllor;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.ye.FirstBoot.common.ResposeResult;
 import com.ye.FirstBoot.dataAccess.jpa.domain.User;
 import com.ye.FirstBoot.dataAccess.jpa.repository.UserRepository;
@@ -94,7 +101,27 @@ public class RestUserControllor {
 	
 	@RequestMapping(path="getUserByMybatis",method= {RequestMethod.POST, RequestMethod.GET})
 	public ResposeResult  getUserByMybatis(Long id) {
-		return ResposeResult.ok(userDao.selectByPrimaryKey(id))  ;
+		PageHelper.startPage(1, 5);
+		List<com.ye.FirstBoot.dataAccess.mybatis.model.User> userList=userDao.selectAllUsers();
+		PageInfo result = new PageInfo(userList);
+		return ResposeResult.ok(result)  ;
+	}
+	
+	@RequestMapping(path="getUserByJPA",method= {RequestMethod.POST, RequestMethod.GET})
+	public ResposeResult getUserByJPA() throws Exception {
+		
+		Sort sort = new Sort(Sort.Direction.DESC, "id"); // 设置根据id倒序排列
+		Pageable pageable = PageRequest.of(0, 3, sort); // 根据start、size、sort创建分页对象
+		Page<User> page = userRepository.findAll(pageable); // 根据这个分页对象获取分页对象
+
+		System.out.println(page.getNumber()); // 当前页start
+		System.out.println(page.getNumberOfElements()); // 当前页start
+		System.out.println(page.getSize()); // 每页数量size
+		System.out.println(page.getTotalElements()); // 总数量
+		System.out.println(page.getTotalPages()); // 总页数
+
+		
+		return  ResposeResult.ok(page)  ;
 	}
 
 }

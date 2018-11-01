@@ -14,12 +14,10 @@
 			表示logger名字最长50个字符，否则按照句点分割。 %msg：日志消息， %n是换行符 -->
 		<layout class="ch.qos.logback.classic.PatternLayout">
 			<springProfile name="dev">
-				<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} ----> [%thread] ----> %-5level
-					%logger{50} - %msg%n</pattern>
+				<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} ----> [%thread] ----> %-5level%logger{50} - %msg%n</pattern>
 			</springProfile>
 			<springProfile name="!dev">
-				<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50}
-					- %msg%n</pattern>
+				<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
 			</springProfile>
 		</layout>
 	</appender>
@@ -47,8 +45,7 @@
 		</rollingPolicy>
 		<!-- 日志输出格式： -->
 		<layout class="ch.qos.logback.classic.PatternLayout">
-			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [ %thread ] - [ %-5level ] [
-				%logger{50} : %line ] - %msg%n</pattern>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [ %thread ] - [ %-5level ] [%logger{50} : %line ] - %msg%n</pattern>
 		</layout>
 	</appender>
 
@@ -56,8 +53,7 @@
 		class="ch.qos.logback.core.rolling.RollingFileAppender">
 		<file>${LOG_HOME}/${appName}_REST.log</file>
 		<encoder>
-			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger
-				-%msg%n</pattern>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger-%msg%n</pattern>
 		</encoder>
 		<rollingPolicy
 			class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
@@ -81,8 +77,7 @@
 		class="ch.qos.logback.core.rolling.RollingFileAppender">
 		<file>${LOG_HOME}/${appName}_Filter.log</file>
 		<encoder>
-			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger
-				-%msg%n</pattern>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger-%msg%n</pattern>
 		</encoder>
 		<rollingPolicy
 			class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
@@ -118,6 +113,8 @@
 		additivity="false">
 		<appender-ref ref="FILTER" />
 	</logger>
+	<!-- mybatis 打印sql -->
+	<logger name="com.ye.FirstBoot.dataAccess.mybatis.dao" level="DEBUG" />
 
 
 
