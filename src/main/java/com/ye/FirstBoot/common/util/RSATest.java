@@ -1,9 +1,9 @@
-package com.ye.FirstBoot.util;
+package com.ye.FirstBoot.common.util;
 
 import java.security.PrivateKey;
 import java.security.PublicKey;
 
-public class Test {
+public class RSATest {
 	
 	/**
 	 * KS 密钥库使用专用格式。建议使用 "keytool -importkeystore -srckeystore yekey.jks -destkeystore yekey.jks -deststoretype pkcs12" 迁移到行业标准格式 PKCS12。
@@ -18,10 +18,8 @@ public class Test {
 
 	public static void main(String[] args) throws Exception {
 		
-		String t="L'S BOUTIQUE";
-		System.out.println(t.replace("'", "''"));
-
-		/*publicKey = RSAUtils.getPublicKeyFromKeyStore("D:\\mydata\\yekey.jks", "yeyypz", "PKCS12", "www.yypz.com");
+		
+		publicKey = RSAUtils.getPublicKeyFromKeyStore("D:\\mydata\\yekey.jks", "yeyypz", "PKCS12", "www.yypz.com");
 		privateKey = RSAUtils.getPrivateKeyFromKeyStore("D:\\mydata\\yekey.jks", "yeyypz", "PKCS12", "www.yypz.com");
 		//publicKey = RSAUtils.getPublicKeyFromKeyStore("D:\\mydata\\macaupassenterprise.pfx", "macaupass_pg", "PKCS12", "0123456789abcdef");
 		//privateKey = RSAUtils.getPrivateKeyFromKeyStore("D:\\mydata\\macaupassenterprise.pfx", "macaupass_pg", "PKCS12", "0123456789abcdef");
@@ -31,7 +29,7 @@ public class Test {
 
 		testEncryptAndDecrypt();
 		testSignAndVerify();
-		RSAUtils.getX509CerCate("D:\\mydata\\yekey.cer");*/
+		RSAUtils.getX509CerCate("D:\\mydata\\yekey.cer");
 	}
 
 	public static void testEncryptAndDecrypt() throws Exception {

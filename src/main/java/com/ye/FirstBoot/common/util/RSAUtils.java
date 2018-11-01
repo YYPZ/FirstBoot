@@ -1,4 +1,4 @@
-package com.ye.FirstBoot.util;
+package com.ye.FirstBoot.common.util;
 
 
 import java.io.ByteArrayOutputStream;
