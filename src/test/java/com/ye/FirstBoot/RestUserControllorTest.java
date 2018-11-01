@@ -18,7 +18,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.ye.FirstBoot.controllor.RestUserControllor;
-import com.ye.FirstBoot.repository.UserRepository;
+import com.ye.FirstBoot.dataAccess.jpa.repository.UserRepository;
 
 @RunWith(SpringRunner.class)
 @WebAppConfiguration

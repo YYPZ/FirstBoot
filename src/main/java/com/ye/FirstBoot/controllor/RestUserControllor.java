@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ye.FirstBoot.common.ResposeResult;
-import com.ye.FirstBoot.domain.User;
-import com.ye.FirstBoot.repository.UserRepository;
+import com.ye.FirstBoot.dataAccess.jpa.domain.User;
+import com.ye.FirstBoot.dataAccess.jpa.repository.UserRepository;
 import com.ye.FirstBoot.service.UserService;
 
 import redis.clients.jedis.JedisCluster;

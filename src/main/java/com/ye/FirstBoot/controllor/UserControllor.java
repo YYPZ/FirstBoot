@@ -17,8 +17,8 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.ye.FirstBoot.domain.User;
-import com.ye.FirstBoot.repository.UserRepository;
+import com.ye.FirstBoot.dataAccess.jpa.domain.User;
+import com.ye.FirstBoot.dataAccess.jpa.repository.UserRepository;
 import com.ye.FirstBoot.service.UserService;
 
 @Controller

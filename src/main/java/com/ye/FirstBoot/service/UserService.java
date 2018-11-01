@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ye.FirstBoot.common.ResposeResult;
-import com.ye.FirstBoot.domain.User;
-import com.ye.FirstBoot.repository.UserRepository;
+import com.ye.FirstBoot.dataAccess.jpa.domain.User;
+import com.ye.FirstBoot.dataAccess.jpa.repository.UserRepository;
 
 @Service
 @Transactional
