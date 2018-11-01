@@ -1,4 +1,4 @@
-package com.ye.FirstBoot.mybatis.model;
+package com.ye.FirstBoot.dataAccess.mybatis.model;
 
 public class User {
     private Long id;

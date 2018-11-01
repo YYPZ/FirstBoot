@@ -1,6 +1,6 @@
-package com.ye.FirstBoot.mybatis.dao;
+package com.ye.FirstBoot.dataAccess.mybatis.dao;
 
-import com.ye.FirstBoot.mybatis.model.User;
+import com.ye.FirstBoot.dataAccess.mybatis.model.User;
 
 public interface UserDao {
     int deleteByPrimaryKey(Long id);

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ye.FirstBoot.common.ResposeResult;
 import com.ye.FirstBoot.dataAccess.jpa.domain.User;
 import com.ye.FirstBoot.dataAccess.jpa.repository.UserRepository;
+import com.ye.FirstBoot.dataAccess.mybatis.dao.UserDao;
 import com.ye.FirstBoot.service.UserService;
 
 import redis.clients.jedis.JedisCluster;
@@ -34,6 +35,9 @@ public class RestUserControllor {
 
 	@Autowired
 	JedisCluster jedisCluster;
+	
+	@Autowired
+	UserDao userDao;
 	
 	@RequestMapping(path="saveUserInfoRest",method= {RequestMethod.POST, RequestMethod.GET})
 	public ResposeResult saveUserInfo(String name) {
@@ -86,6 +90,11 @@ public class RestUserControllor {
 	@RequestMapping(path="getInfoFromRedis",method= {RequestMethod.POST, RequestMethod.GET})
 	public ResposeResult  getInfoFromRedisCluster(String name) {
 		return ResposeResult.ok(redisTemplate.opsForValue().get("name"))  ;
+	}
+	
+	@RequestMapping(path="getUserByMybatis",method= {RequestMethod.POST, RequestMethod.GET})
+	public ResposeResult  getUserByMybatis(Long id) {
+		return ResposeResult.ok(userDao.selectByPrimaryKey(id))  ;
 	}
 
 }

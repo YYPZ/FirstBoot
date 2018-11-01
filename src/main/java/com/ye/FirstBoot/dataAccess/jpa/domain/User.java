@@ -1,4 +1,4 @@
-package com.ye.FirstBoot.domain;
+package com.ye.FirstBoot.dataAccess.jpa.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
