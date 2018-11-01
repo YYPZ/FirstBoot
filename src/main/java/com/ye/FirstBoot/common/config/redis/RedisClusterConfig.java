@@ -1,4 +1,4 @@
-package com.ye.FirstBoot.common.config;
+package com.ye.FirstBoot.common.config.redis;
 
 
 
@@ -25,7 +25,6 @@ import redis.clients.jedis.JedisCluster;
 import redis.clients.jedis.JedisPoolConfig;
 //临时注释，如果使用 需配置
 @Configuration
-@PropertySource("classpath:redis.properties")
 @ConditionalOnClass({JedisCluster.class})
 public class RedisClusterConfig {
     @Value("${redis.cluster.nodes}")

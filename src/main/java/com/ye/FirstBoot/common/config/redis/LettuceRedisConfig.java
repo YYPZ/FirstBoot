@@ -1,4 +1,4 @@
-package com.ye.FirstBoot.common.config;
+package com.ye.FirstBoot.common.config.redis;
 import java.time.Duration;
 import java.util.HashSet;
 import java.util.Set;
@@ -23,7 +23,6 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 // 临时注释，如果使用lettuce 需配置
 @Configuration
-@PropertySource("classpath:redis.properties")
 public class LettuceRedisConfig {
 
 	@Value("${redis.hostName}")

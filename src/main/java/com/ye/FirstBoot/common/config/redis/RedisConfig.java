@@ -1,4 +1,4 @@
-package com.ye.FirstBoot.common.config;
+package com.ye.FirstBoot.common.config.redis;
 
 
 import org.springframework.beans.factory.annotation.Value;
@@ -19,7 +19,6 @@ import redis.clients.jedis.JedisPoolConfig;
 
 //临时注释，如果使用 需配置
 //@Configuration
-@PropertySource("classpath:redis.properties")
 public class RedisConfig {
 
 	@Value("${redis.hostName}")

@@ -1,4 +1,4 @@
-package com.ye.FirstBoot.common;
+package com.ye.FirstBoot.common.config;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -7,6 +7,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.ye.FirstBoot.common.ResposeResult;
  
 @ControllerAdvice
 public class GlobalExceptionHandler {

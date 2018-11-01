@@ -1,4 +1,4 @@
-package com.ye.FirstBoot.common;
+package com.ye.FirstBoot.common.config.redis;
 
 import java.util.List;
 import java.util.Map;

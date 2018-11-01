@@ -1,4 +1,4 @@
-package com.ye.FirstBoot.common;
+package com.ye.FirstBoot.common.config;
 
 import java.io.IOException;
 
@@ -26,7 +26,7 @@ public class IPFilter implements Filter {
 		public void doFilter(ServletRequest srequest, ServletResponse sresponse, FilterChain filterChain)
 				throws IOException, ServletException {
 			HttpServletRequest request = (HttpServletRequest) srequest;
-			
+			//WebConfiguration的配置
 			logger.info(filterName+": access URL "+request.getRequestURI());
 			logger.info(filterName+": allowIP "+allowIP +" clientIP "+request.getRemoteAddr());
 			

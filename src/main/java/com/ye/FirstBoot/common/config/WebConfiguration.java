@@ -1,4 +1,4 @@
-package com.ye.FirstBoot.common;
+package com.ye.FirstBoot.common.config;
 
 import org.apache.catalina.filters.RemoteIpFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -46,6 +46,7 @@ public class WebConfiguration {
     
     @Bean
     public FilterRegistrationBean addFilterRegistration() {
+    	//与IPFilter结合使用
         FilterRegistrationBean registration = new FilterRegistrationBean();
         registration.setFilter(new IPFilter());
         registration.addUrlPatterns("/*");
