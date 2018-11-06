@@ -7,17 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-Hello Spring Boot
-<br/>
-${user.id }
-<br/>
-num:${num } ddd:${ddd }
-<br>
-${test }
-<br>
-${error}
-<form action="ipVerify" method="post">
-    <div><input type="submit" value="Sign In by IP"/></div>
-</form>
+home 
 </body>
 </html>

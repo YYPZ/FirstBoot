@@ -123,5 +123,11 @@ public class RestUserControllor {
 		
 		return  ResposeResult.ok(page)  ;
 	}
+	
+	
+	@RequestMapping(path="denyAll",method= {RequestMethod.POST, RequestMethod.GET})
+	public ResposeResult denyAll() throws Exception {	
+		return  ResposeResult.ok("Sorry you had been denied!")  ;
+	}
 
 }

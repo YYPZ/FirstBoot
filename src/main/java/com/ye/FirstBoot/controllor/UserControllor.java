@@ -52,5 +52,19 @@ public class UserControllor {
 		logger.info(myValue);
 		return mav;
 	}
+	
+	@RequestMapping(path = "login", method = { RequestMethod.POST, RequestMethod.GET })
+	public ModelAndView login( HttpServletRequest request, HttpServletResponse response)
+			throws IOException {
+		ModelAndView mav = new ModelAndView("index");
+		return mav;
+	}
+	
+	@RequestMapping(path = "homePage", method = { RequestMethod.POST, RequestMethod.GET })
+	public ModelAndView homePage(HttpServletRequest request, HttpServletResponse response)
+			throws IOException {
+		ModelAndView mav = new ModelAndView("homePage");
+		return mav;
+	}
 
 }
