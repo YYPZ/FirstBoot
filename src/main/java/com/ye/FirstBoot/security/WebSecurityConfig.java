@@ -1,12 +1,12 @@
 package com.ye.FirstBoot.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -26,7 +26,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     LoginUrlAuthenticationEntryPoint loginUrlAuthenticationEntryPoint(){
         LoginUrlAuthenticationEntryPoint loginUrlAuthenticationEntryPoint = new LoginUrlAuthenticationEntryPoint
-                ("/login");
+                ("/ipVerify");
         return loginUrlAuthenticationEntryPoint;
     }
 
@@ -47,14 +47,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+            .formLogin()
+             .loginPage("/login")
+	         .defaultSuccessUrl("/homePage")
+	      	//.successHandler(successHandler)
+	        .and()
             .authorizeRequests()
                 .antMatchers("/monitor/*").permitAll()
                 .antMatchers("/","/login","/denyAll").permitAll()
                 .anyRequest().authenticated()
                 .and()
-          /*  .formLogin()
-            	.successHandler(successHandler)
-                .and()*/
             .logout()
                 .logoutSuccessUrl("/login")
                 .permitAll()
@@ -66,19 +68,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         ;
 
         //注册IpAuthenticationProcessingFilter  注意放置的顺序 这很关键 放到密码认证之前
-        http.addFilterBefore(ipAuthenticationProcessingFilter(authenticationManager()), UsernamePasswordAuthenticationFilter.class)
-        .csrf().disable();
+        http.addFilterBefore(ipAuthenticationProcessingFilter(authenticationManager()), UsernamePasswordAuthenticationFilter.class);
+        http.csrf().disable();
 
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.authenticationProvider(ipAuthenticationProvider());
+    	 auth.authenticationProvider(ipAuthenticationProvider());
+    	 auth.inMemoryAuthentication().passwordEncoder(new BCryptPasswordEncoder()).withUser("admin").password(new BCryptPasswordEncoder().encode("admin")).roles("USER");
     }
     
 
     //配置封装ipAuthenticationToken的过滤器
-    IpAuthenticationProcessingFilter ipAuthenticationProcessingFilter(AuthenticationManager authenticationManager) {
+    private IpAuthenticationProcessingFilter ipAuthenticationProcessingFilter(AuthenticationManager authenticationManager) {
         IpAuthenticationProcessingFilter ipAuthenticationProcessingFilter = new IpAuthenticationProcessingFilter();
         //为过滤器添加认证器
         ipAuthenticationProcessingFilter.setAuthenticationManager(authenticationManager);

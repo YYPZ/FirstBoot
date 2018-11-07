@@ -21,6 +21,7 @@ public class IpAuthenticationProcessingFilter extends AbstractAuthenticationProc
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException, ServletException {
     	SavedRequestAwareAuthenticationSuccessHandler successHandler =(SavedRequestAwareAuthenticationSuccessHandler) this.getSuccessHandler();
+    	//如果直接在登陆页面进入的，默认调到homePage 如果其他页面访问被拦截到登陆页面的，登陆过后会跳回最初的页面
     	successHandler.setDefaultTargetUrl("/homePage");
     	
         //获取host信息 
