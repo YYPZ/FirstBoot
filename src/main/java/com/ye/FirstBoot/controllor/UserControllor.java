@@ -3,12 +3,14 @@ package com.ye.FirstBoot.controllor;
 import java.io.IOException;
 import java.util.Optional;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -54,15 +56,20 @@ public class UserControllor {
 	}
 	
 	@RequestMapping(path = "login", method = { RequestMethod.POST, RequestMethod.GET })
-	public ModelAndView login( HttpServletRequest request, HttpServletResponse response)
-			throws IOException {
+	public ModelAndView login( HttpServletRequest request, HttpServletResponse response)throws Exception {
+		// 获取安全上下文 ：SecurityContextHolder.getContext()
+		//如果已经等了跳转到主页面
+		if("true".equals(request.getSession().getAttribute("isLogin"))) {
+			request.getRequestDispatcher("/homePage").forward(request, response);
+		}
+		
 		ModelAndView mav = new ModelAndView("index");
+		mav.addObject("error", request.getParameter("error"));
 		return mav;
 	}
 	
 	@RequestMapping(path = "homePage", method = { RequestMethod.POST, RequestMethod.GET })
-	public ModelAndView homePage(HttpServletRequest request, HttpServletResponse response)
-			throws IOException {
+	public ModelAndView homePage(HttpServletRequest request, HttpServletResponse response)throws IOException {
 		ModelAndView mav = new ModelAndView("homePage");
 		return mav;
 	}

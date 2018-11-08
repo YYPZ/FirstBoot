@@ -21,15 +21,21 @@ public class IpAuthenticationProvider implements AuthenticationProvider {
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         IpAuthenticationToken ipAuthenticationToken = (IpAuthenticationToken) authentication;
-        String ip = ipAuthenticationToken.getIp();
-        SimpleGrantedAuthority simpleGrantedAuthority = ipAuthorityMap.get(ip);
-        //不在白名单列表中
-        if (simpleGrantedAuthority == null) {
-            return null;
-        } else {
-            //封装权限信息，并且此时身份已经被认证
-            return new IpAuthenticationToken(ip, Arrays.asList(simpleGrantedAuthority));
-        }
+        //默认授权通过页面
+        if (ipAuthenticationToken.isAuthenticated()) {
+        	return authentication;
+		}else {
+			 String ip = ipAuthenticationToken.getIp();
+		        SimpleGrantedAuthority simpleGrantedAuthority = ipAuthorityMap.get(ip);
+		        //不在白名单列表中
+		        if (simpleGrantedAuthority == null) {
+		            return null;
+		        } else {
+		            //封装权限信息，并且此时身份已经被认证
+		            return new IpAuthenticationToken(ip, Arrays.asList(simpleGrantedAuthority));
+		        }
+		}
+       
     }
 
     //只支持IpAuthenticationToken该身份

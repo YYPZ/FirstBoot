@@ -16,20 +16,12 @@ public class MyAuthenticationSuccessHandler implements
 	String defaultForward;
   
     @Override  
-    public void onAuthenticationSuccess(HttpServletRequest request,  
-            HttpServletResponse response, Authentication auth)  
-            throws IOException, ServletException {        
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication auth) throws IOException, ServletException {        
+	    request.getSession().setAttribute("isLogin", "true");
+        if ("/login".equals(request.getServletPath())) {
+        	request.getRequestDispatcher(defaultForward).forward(request, response);
+		}
     
-            String redirectUrl = (String)request.getSession().getAttribute("_redirectUrl");  
-            request.getSession().removeAttribute("_redirectUrl");  
-            if(StringUtils.isNotEmpty(redirectUrl)){  
-                response.sendRedirect(redirectUrl);  
-                //request.getRequestDispatcher(ru).forward(request, response);  
-            }else{  
-                request.getRequestDispatcher(defaultForward).forward(request, response);  
-            }  
-              
-     
     }  
   
 } 
