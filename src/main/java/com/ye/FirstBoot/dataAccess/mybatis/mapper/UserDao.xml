@@ -6,15 +6,15 @@
     <result column="account" jdbcType="VARCHAR" property="account" />
     <result column="created_date" jdbcType="VARCHAR" property="createdDate" />
     <result column="email" jdbcType="VARCHAR" property="email" />
-    <result column="iphone" jdbcType="VARCHAR" property="iphone" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
     <result column="password" jdbcType="VARCHAR" property="password" />
     <result column="platform" jdbcType="VARCHAR" property="platform" />
     <result column="salt" jdbcType="VARCHAR" property="salt" />
     <result column="updated_date" jdbcType="VARCHAR" property="updatedDate" />
-    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="user_name" jdbcType="VARCHAR" property="username" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, account, created_date, email, iphone, password, platform, salt, updated_date, 
+    id, account, created_date, email, phone, password, platform, salt, updated_date, 
     user_name
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
@@ -29,11 +29,11 @@
   </delete>
   <insert id="insert" parameterType="User">
     insert into user (id, account, created_date, 
-      email, iphone, password, 
+      email, phone, password, 
       platform, salt, updated_date, 
       user_name)
     values (#{id,jdbcType=BIGINT}, #{account,jdbcType=VARCHAR}, #{createdDate,jdbcType=VARCHAR}, 
-      #{email,jdbcType=VARCHAR}, #{iphone,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{platform,jdbcType=VARCHAR}, #{salt,jdbcType=VARCHAR}, #{updatedDate,jdbcType=VARCHAR}, 
       #{userName,jdbcType=VARCHAR})
   </insert>
@@ -52,8 +52,8 @@
       <if test="email != null">
         email,
       </if>
-      <if test="iphone != null">
-        iphone,
+      <if test="phone != null">
+        phone,
       </if>
       <if test="password != null">
         password,
@@ -84,8 +84,8 @@
       <if test="email != null">
         #{email,jdbcType=VARCHAR},
       </if>
-      <if test="iphone != null">
-        #{iphone,jdbcType=VARCHAR},
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
       </if>
       <if test="password != null">
         #{password,jdbcType=VARCHAR},
@@ -116,8 +116,8 @@
       <if test="email != null">
         email = #{email,jdbcType=VARCHAR},
       </if>
-      <if test="iphone != null">
-        iphone = #{iphone,jdbcType=VARCHAR},
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
       </if>
       <if test="password != null">
         password = #{password,jdbcType=VARCHAR},
@@ -142,7 +142,7 @@
     set account = #{account,jdbcType=VARCHAR},
       created_date = #{createdDate,jdbcType=VARCHAR},
       email = #{email,jdbcType=VARCHAR},
-      iphone = #{iphone,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR},
       platform = #{platform,jdbcType=VARCHAR},
       salt = #{salt,jdbcType=VARCHAR},
@@ -155,5 +155,13 @@
     select 
     <include refid="Base_Column_List" />
     from user
+  </select>
+  
+   <select id="selectByAccount"  resultMap="BaseResultMap" parameterType="String">
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where 
+    	account = #{account,jdbcType=VARCHAR}
   </select>
 </mapper>

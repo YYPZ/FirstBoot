@@ -28,7 +28,7 @@ public class User {
 	private String password;				// 加密后的密码
 	private String salt;					// 用于加密的盐
 	@Column
-	private String iphone;					// 手机号
+	private String phone;					// 手机号
 	private String email;					// 邮箱
 	private String platform;				// 用户来自的平台
 	private String createdDate;				// 用户注册时间
@@ -70,11 +70,11 @@ public class User {
 	public void setSalt(String salt) {
 		this.salt = salt;
 	}
-	public String getIphone() {
-		return iphone;
+	public String getPhone() {
+		return phone;
 	}
-	public void setIphone(String iphone) {
-		this.iphone = iphone;
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 	public String getEmail() {
 		return email;
@@ -102,7 +102,7 @@ public class User {
 	}
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", account=" + account + ", userName=" + userName + ", iphone=" + iphone + ", email="
+		return "User [id=" + id + ", account=" + account + ", userName=" + userName + ", phone=" + phone + ", email="
 				+ email + ", createdDate=" + createdDate + ", updatedDate=" + updatedDate + "]";
 	}
 	

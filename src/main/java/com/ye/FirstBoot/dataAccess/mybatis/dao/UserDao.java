@@ -20,4 +20,6 @@ public interface UserDao {
     int updateByPrimaryKey(User record);
     
     List<User> selectAllUsers();
+    
+    User selectByAccount(String account);
 }

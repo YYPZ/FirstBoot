@@ -1,6 +1,11 @@
 package com.ye.FirstBoot.dataAccess.mybatis.model;
 
-public class User {
+import java.util.Collection;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+public class User implements UserDetails {
     private Long id;
 
     private String account;
@@ -9,7 +14,7 @@ public class User {
 
     private String email;
 
-    private String iphone;
+    private String phone;
 
     private String password;
 
@@ -19,7 +24,9 @@ public class User {
 
     private String updatedDate;
 
-    private String userName;
+    private String username;
+    
+    Collection<? extends GrantedAuthority> authorities;
 
     public Long getId() {
         return id;
@@ -53,12 +60,12 @@ public class User {
         this.email = email == null ? null : email.trim();
     }
 
-    public String getIphone() {
-        return iphone;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setIphone(String iphone) {
-        this.iphone = iphone == null ? null : iphone.trim();
+    public void setPhone(String phone) {
+        this.phone = phone == null ? null : phone.trim();
     }
 
     public String getPassword() {
@@ -93,11 +100,41 @@ public class User {
         this.updatedDate = updatedDate == null ? null : updatedDate.trim();
     }
 
-    public String getUserName() {
-        return userName;
-    }
+  
 
-    public void setUserName(String userName) {
-        this.userName = userName == null ? null : userName.trim();
-    }
+    
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return null;
+	}
+
+	@Override
+	public String getUsername() {
+		return account;
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+	
+	public void setAuthorities(Collection<? extends GrantedAuthority> authorities) {
+		this.authorities = authorities;
+	}
 }

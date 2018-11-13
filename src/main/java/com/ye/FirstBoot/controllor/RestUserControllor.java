@@ -12,6 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -48,11 +49,14 @@ public class RestUserControllor {
 	
 	@RequestMapping(path="saveUserInfoRest",method= {RequestMethod.POST, RequestMethod.GET})
 	public ResposeResult saveUserInfo(String name) {
-		User user =new User();
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		User user = new User();
 		user.setAccount("002");
-		user.setIphone("0000008");
+		user.setPhone("0000008");
+		user.setPassword(encoder.encode("111111"));
+
 		return userService.registerUser(user);
-		
+
 	}
 	
 	@RequestMapping(path="getUserInfoRest",method= {RequestMethod.POST, RequestMethod.GET})

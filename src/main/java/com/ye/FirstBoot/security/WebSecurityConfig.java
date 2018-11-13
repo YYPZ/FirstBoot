@@ -7,6 +7,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
@@ -18,6 +19,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	AuthenticationSuccessHandler  successHandler;
 	
+	@Bean
+    UserDetailsService customUserService() {
+        return new CustomUserService();
+    }
+
 	//ip认证者配置
     @Bean
     IpAuthenticationProvider ipAuthenticationProvider() {
@@ -32,17 +38,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return loginUrlAuthenticationEntryPoint;
     }
 
-  /*  //配置登录端点
-    @Bean
-    LoginUrlAuthenticationEntryPoint loginUrlAuthenticationEntryPoint(){
-        LoginUrlAuthenticationEntryPoint entryPoint = new MyLoginUrlAuthenticationEntryPoint ("/homePage");
-        return entryPoint;
-    }*/
     
-   //配置登录端点
     @Bean
-    AuthenticationSuccessHandler myAuthenticationSuccessHandler(){
-    	AuthenticationSuccessHandler successHandler = new MyAuthenticationSuccessHandler();
+    AuthenticationSuccessHandler loginAuthenticationSuccessHandler(){
+    	AuthenticationSuccessHandler successHandler = new LoginAuthenticationSuccessHandler();
         return successHandler;
     }
     
@@ -76,17 +75,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     }
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-    	 auth.authenticationProvider(ipAuthenticationProvider());
-    	 auth.inMemoryAuthentication().passwordEncoder(new BCryptPasswordEncoder()).withUser("admin").password(new BCryptPasswordEncoder().encode("admin")).roles("USER");
-    }
+	@Override
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+		auth.userDetailsService(customUserService()).passwordEncoder(new BCryptPasswordEncoder());
+		auth.authenticationProvider(ipAuthenticationProvider());
+		//auth.inMemoryAuthentication().passwordEncoder(new BCryptPasswordEncoder()).withUser("admin").password(new BCryptPasswordEncoder().encode("admin")).roles("USER");
+	}
     
 
     //配置封装ipAuthenticationToken的过滤器
     private IpAuthenticationProcessingFilter ipAuthenticationProcessingFilter(AuthenticationManager authenticationManager) {
         IpAuthenticationProcessingFilter ipAuthenticationProcessingFilter = new IpAuthenticationProcessingFilter();
         ipAuthenticationProcessingFilter.setContinueChainBeforeSuccessfulAuthentication(true);
+        IpAuthenticationSuccessHandler successHandler = new IpAuthenticationSuccessHandler();
+        ipAuthenticationProcessingFilter.setAuthenticationSuccessHandler(successHandler);
         //为过滤器添加认证器
         ipAuthenticationProcessingFilter.setAuthenticationManager(authenticationManager);
         //重写认证失败时的跳转页面

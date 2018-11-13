@@ -24,7 +24,10 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value = Exception.class)
     @ResponseBody
-    public ResposeResult defaultErrorHandler(HttpServletRequest req, Exception e) throws Exception {
+    public ResposeResult defaultErrorHandler(HttpServletRequest req,HttpServletResponse rsp , Exception e) throws Exception {
+    	if ("/".equals(req.getServletPath())) {
+			rsp.sendRedirect(req.getContextPath()+"/homePage");
+		}
         logger.error("", e);
         ResposeResult result = new ResposeResult();
         result.setMsg(e.getMessage());

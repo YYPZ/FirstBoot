@@ -86,8 +86,8 @@ public interface UserRepository extends PagingAndSortingRepository<User, Long>,
 	long getActiveUserCount(@Param("platform")String platform, @Param("updatedDate")String updatedDate);
 	
 	// 通过邮箱或者手机号模糊查询用户信息
-	@Query(value="SELECT u FROM User u WHERE u.email LIKE %?1% OR u.iphone LIKE %?2%")
-	List<User> findByEmailAndIhpneLike(String email, String iphone);
+	@Query(value="SELECT u FROM User u WHERE u.email LIKE %?1% OR u.phone LIKE %?2%")
+	List<User> findByEmailAndIhpneLike(String email, String phone);
 	
 	// 修改用户邮箱
 	@Modifying
