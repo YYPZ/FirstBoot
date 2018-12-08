@@ -8,11 +8,11 @@ import org.springframework.context.annotation.Configuration;
 @ComponentScan(basePackages = "com.ye.FirstBoot.annotation")
 public class CustomizeScanAnnotationTest {
 public static void main(String[] args) {
-    AnnotationConfigApplicationContext annotationConfigApplicationContext = new AnnotationConfigApplicationContext(CustomizeScanAnnotationTest.class);                
-    Target target = annotationConfigApplicationContext.getBean(Target.class);
-    target.printInfo();
-   	
-}
- 
+		AnnotationConfigApplicationContext annotationConfigApplicationContext = new AnnotationConfigApplicationContext(
+				CustomizeScanAnnotationTest.class);
+		Target target = annotationConfigApplicationContext.getBean(Target.class);
+		target.printInfo();
 
- }
+	}
+
+}
