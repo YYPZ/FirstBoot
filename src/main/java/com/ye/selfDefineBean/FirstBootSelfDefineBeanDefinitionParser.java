@@ -1,12 +1,13 @@
 package com.ye.selfDefineBean;
 
 import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.beans.factory.support.AbstractBeanDefinition;
 import org.springframework.beans.factory.support.RootBeanDefinition;
-import org.springframework.beans.factory.xml.BeanDefinitionParser;
+import org.springframework.beans.factory.xml.AbstractBeanDefinitionParser;
 import org.springframework.beans.factory.xml.ParserContext;
 import org.w3c.dom.Element;
 
-public class FirstBootSelfDefineBeanDefinitionParser implements BeanDefinitionParser {
+public class FirstBootSelfDefineBeanDefinitionParser extends AbstractBeanDefinitionParser {
 	private Class<?> beanClass;
 	private boolean required;
 
@@ -15,8 +16,9 @@ public class FirstBootSelfDefineBeanDefinitionParser implements BeanDefinitionPa
 		this.required = required;
 	}
 
+	
 	@Override
-	public BeanDefinition parse(Element element, ParserContext parserContext) {
+	protected AbstractBeanDefinition parseInternal(Element element, ParserContext parserContext) {
 		RootBeanDefinition beanDefinition = new RootBeanDefinition();
 		beanDefinition.setBeanClass(beanClass);
 		beanDefinition.setLazyInit(false);

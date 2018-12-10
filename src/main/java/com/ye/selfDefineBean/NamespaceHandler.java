@@ -10,7 +10,7 @@ public class NamespaceHandler extends NamespaceHandlerSupport {
 
 	public void init() {
 		logger.info("开始初始化自定义Remote标签...");
-		registerBeanDefinitionParser("Remote", new FirstBootSelfDefineBeanDefinitionParser(Remote.class, true));
+		registerBeanDefinitionParser("remote", new FirstBootSelfDefineBeanDefinitionParser(Remote.class, true));
 		logger.info("初始化自定义Remote标签结束...");
 	}
 

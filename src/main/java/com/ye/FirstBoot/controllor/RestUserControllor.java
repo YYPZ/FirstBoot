@@ -20,10 +20,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.ye.FirstBoot.common.ResposeResult;
+import com.ye.FirstBoot.common.util.BeanUtil;
 import com.ye.FirstBoot.dataAccess.jpa.domain.User;
 import com.ye.FirstBoot.dataAccess.jpa.repository.UserRepository;
 import com.ye.FirstBoot.dataAccess.mybatis.dao.UserDao;
 import com.ye.FirstBoot.service.UserService;
+import com.ye.selfDefineBean.Remote;
 
 import redis.clients.jedis.JedisCluster;
 
@@ -46,6 +48,8 @@ public class RestUserControllor {
 	
 	@Autowired
 	UserDao userDao;
+	
+	
 	
 	@RequestMapping(path="saveUserInfoRest",method= {RequestMethod.POST, RequestMethod.GET})
 	public ResposeResult saveUserInfo(String name) {
@@ -130,7 +134,9 @@ public class RestUserControllor {
 	
 	
 	@RequestMapping(path="denyAll",method= {RequestMethod.POST, RequestMethod.GET})
-	public ResposeResult denyAll() throws Exception {	
+	public ResposeResult denyAll() throws Exception {
+		Remote remote= BeanUtil.getBean(Remote.class);
+		remote.printInfo();
 		return  ResposeResult.ok("Sorry you had been denied!")  ;
 	}
 
